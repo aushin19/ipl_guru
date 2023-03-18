@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_dashboard"
+        android:icon="@drawable/home"
+        android:title="Home"
+        app:cnb_iconColor="@color/primary"/>
+    <item
+        android:id="@+id/menu_news"
+        android:icon="@drawable/radio"
+        android:title="News"
+        app:cnb_iconColor="@color/primary"/>
+</menu>
