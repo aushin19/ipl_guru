@@ -65,13 +65,13 @@ public class MatchStartCountdown {
                                 }
                                 if(minsLeft.equals("00")){
                                     textView.setText(secondLeft + "s");
-                                }/*else{
+                                }else{
                                     handler.removeMessages(0);
                                     if(daysLeft.equals("1") || daysLeft.equals("01"))
                                         textView.setText(daysLeft + " day");
                                     else
                                         textView.setText(daysLeft + " days");
-                                }*/
+                                }
                             }
                         });
                     } else {

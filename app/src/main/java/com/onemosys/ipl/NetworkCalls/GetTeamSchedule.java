@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.onemosys.ipl.Configs.LazyLoader;
 import com.onemosys.ipl.Fragments.Dashboard;
 import com.onemosys.ipl.Helper.MatchStartCountdown;
@@ -144,38 +146,47 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
     }
 
     private void setTeamImage(String name, ImageView imageView) {
+        int drawable = 0;
         switch (name) {
             case "MI":
-                imageView.setImageResource(R.drawable.mi);
+                drawable = R.drawable.mi;
                 break;
             case "CSK":
-                imageView.setImageResource(R.drawable.csk);
+                drawable = R.drawable.csk;
                 break;
             case "KKR":
-                imageView.setImageResource(R.drawable.kkr);
+                drawable = R.drawable.kkr;
                 break;
             case "RR":
-                imageView.setImageResource(R.drawable.rr);
+                drawable = R.drawable.rr;
                 break;
             case "RCB":
-                imageView.setImageResource(R.drawable.rcb);
+                drawable = R.drawable.rcb;
                 break;
             case "SRH":
-                imageView.setImageResource(R.drawable.srh);
+                drawable = R.drawable.srh;
                 break;
             case "DC":
-                imageView.setImageResource(R.drawable.dc);
+                drawable = R.drawable.dc;
                 break;
             case "GT":
-                imageView.setImageResource(R.drawable.gt);
+                drawable = R.drawable.gt;
                 break;
             case "LSG":
-                imageView.setImageResource(R.drawable.lsg);
+                drawable = R.drawable.lsg;
                 break;
             case "PBKS":
-                imageView.setImageResource(R.drawable.pbks);
+                drawable = R.drawable.pbks;
                 break;
         }
+        Glide.with(context)
+                .load(context.getDrawable(drawable))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
+    private void setTeamImage(){
+
     }
 
     private Bitmap getBitMap(Drawable drawable) {
