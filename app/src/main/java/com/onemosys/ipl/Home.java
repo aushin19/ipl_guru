@@ -13,6 +13,7 @@ import android.view.View;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.onemosys.ipl.Fragments.Dashboard;
 import com.onemosys.ipl.Fragments.News;
+import com.onemosys.ipl.NetworkCalls.GetTeamSchedule;
 
 public class Home extends AppCompatActivity {
 
@@ -50,6 +51,9 @@ public class Home extends AppCompatActivity {
                     default:
                         openFragment(new Dashboard(), (FragmentActivity) activity);
                 }
+
+                GetTeamSchedule.feedLimit = 6;
+                GetTeamSchedule.feedCounter = 0;
             }
         });
         chipNavigationBar.setItemSelected(R.id.menu_dashboard, true);

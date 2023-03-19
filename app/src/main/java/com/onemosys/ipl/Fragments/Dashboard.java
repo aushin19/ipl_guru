@@ -6,7 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
@@ -15,13 +17,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.card.MaterialCardView;
+import com.onemosys.ipl.Configs.LazyLoader;
+import com.onemosys.ipl.MainActivity;
+import com.onemosys.ipl.Modals.TeamScheduleModal;
 import com.onemosys.ipl.NetworkCalls.GetPosters;
 import com.onemosys.ipl.NetworkCalls.GetTeamSchedule;
 import com.onemosys.ipl.R;
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +50,8 @@ public class Dashboard extends Fragment {
     public View view;
     public static ViewPager2 viewPager2;
     public static ShimmerFrameLayout shimmerImgSlider;
+    public static ShimmerFrameLayout shimmerMatch;
+    LinearLayout container;
     public static Handler sliderHandler = new Handler();
     public static WormDotsIndicator wormDotsIndicator;
 
@@ -91,7 +109,7 @@ public class Dashboard extends Fragment {
         this.view = view;
 
         getPoster(view);
-        getTeamSchedule();
+        getTeamSchedule(view);
     }
 
     public void getPoster(View view) {
@@ -108,13 +126,31 @@ public class Dashboard extends Fragment {
         }).start();
     }
 
-    private void getTeamSchedule() {
+    private void getTeamSchedule(View view) {
+        NestedScrollView nestedScrollView = view.findViewById(R.id.nestedScrollView);
+        container = view.findViewById(R.id.team_schedule_container);
+        shimmerMatch = view.findViewById(R.id.shimmer_match);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                new GetTeamSchedule(context, view).execute();
+                new GetTeamSchedule(context, view, container).execute();
             }
         }).start();
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new GetTeamSchedule(context, view, container).execute();
+                        }
+                    }).start();
+                }
+            }
+        });
     }
 
 }

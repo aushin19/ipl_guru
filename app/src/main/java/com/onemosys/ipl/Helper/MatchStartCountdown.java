@@ -22,7 +22,14 @@ public class MatchStartCountdown {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(df);
     }
 
-    public void countDownStart(int unixTime, TextView textView) {
+    public static Long toUnixTimestamp(Date date) {
+        if (date == null) {
+            return null;
+        }
+        return date.getTime() / 1000L;
+    }
+
+    public void countDownStart(String Time, TextView textView) {
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @SuppressLint("SetTextI18n")
@@ -31,7 +38,7 @@ public class MatchStartCountdown {
                 handler.postDelayed(this, 1000);
                 try {
                     @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date futureDate = dateFormat.parse(parseDate(unixTime));
+                    Date futureDate = dateFormat.parse(Time);
                     Date currentDate = new Date();
                     if (!currentDate.after(futureDate)) {
                         long diff = futureDate.getTime() - currentDate.getTime();
@@ -52,24 +59,26 @@ public class MatchStartCountdown {
                             public void run() {
                                 if(daysLeft.equals("00")){
                                     textView.setText(hoursLeft + "h " + minsLeft + "m");
-                                }else if (hoursLeft.equals("00")){
+                                }
+                                if (hoursLeft.equals("00")){
                                     textView.setText(minsLeft + "m " + secondLeft + "s");
-                                }else if (minsLeft.equals("00")){
+                                }
+                                if(minsLeft.equals("00")){
                                     textView.setText(secondLeft + "s");
-                                }else{
+                                }/*else{
                                     handler.removeMessages(0);
                                     if(daysLeft.equals("1") || daysLeft.equals("01"))
                                         textView.setText(daysLeft + " day");
                                     else
                                         textView.setText(daysLeft + " days");
-                                }
+                                }*/
                             }
                         });
                     } else {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                textView.setText("⚫ LIVE");
+                                textView.setText("LIVE");
                                 handler.removeMessages(0);
                             }
                         });

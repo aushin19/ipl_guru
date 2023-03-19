@@ -6,14 +6,17 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.onemosys.ipl.Configs.LazyLoader;
+import com.onemosys.ipl.Fragments.Dashboard;
 import com.onemosys.ipl.Helper.MatchStartCountdown;
 import com.onemosys.ipl.Modals.TeamScheduleModal;
 import com.onemosys.ipl.R;
@@ -33,35 +36,51 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
     ArrayList<TeamScheduleModal> teamScheduleModalArrayList = new ArrayList<>();
     String content;
     long todayUNIX;
+    public static int feedLimit = 6;
+    public static int feedCounter = 0;
+    LinearLayout container;
 
-    public GetTeamSchedule(Context context, View view) {
+    public GetTeamSchedule(Context context, View view, LinearLayout container) {
         this.context = context;
         this.view = view;
+        this.container = container;
         todayUNIX = System.currentTimeMillis() / 1000L;
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            if (LazyLoader.TEAM_SCHEDULE_ARRAYLIST == null) {
-                Document document = Jsoup.connect("https://tataiplguru.blogspot.com/2023/03/time-table.html").get();
-                Elements element = document.getElementsByClass("team_schedule");
+            Document document = Jsoup.connect("https://tataiplguru.blogspot.com/2023/03/time-table.html").get();
+            Elements element = document.getElementsByClass("team_schedule");
 
-                content = Jsoup.parse(String.valueOf(element)).text();
+            content = Jsoup.parse(String.valueOf(element)).text();
 
-                try {
-                    JSONArray jsonArray = new JSONArray(content);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        if (todayUNIX <= jsonArray.getJSONObject(i).getInt("matchTime")) {
-                            teamScheduleModalArrayList.add(new TeamScheduleModal(jsonArray.getJSONObject(i).getString("team1"), jsonArray.getJSONObject(i).getString("team1Short"), jsonArray.getJSONObject(i).getString("team2"), jsonArray.getJSONObject(i).getString("team2Short"), jsonArray.getJSONObject(i).getString("matchDay"), jsonArray.getJSONObject(i).getInt("matchTime"), jsonArray.getJSONObject(i).getBoolean("isTeamAvailable")));
-                        }
+            try {
+                JSONArray jsonArray = new JSONArray(content);
+
+                for (int i = feedCounter; i < feedLimit; i++) {
+                    if (true) { //todayUNIX <= jsonArray.getJSONObject(i).getInt("matchTime")
+                        teamScheduleModalArrayList.add(new TeamScheduleModal(
+                                jsonArray.getJSONObject(i).getString("team1"),
+                                jsonArray.getJSONObject(i).getString("team1Short"),
+                                jsonArray.getJSONObject(i).getString("team2"),
+                                jsonArray.getJSONObject(i).getString("team2Short"),
+                                jsonArray.getJSONObject(i).getString("matchDay"),
+                                jsonArray.getJSONObject(i).getString("matchTime"),
+                                jsonArray.getJSONObject(i).getBoolean("isTeamAvailable")));
                     }
-                    LazyLoader.TEAM_SCHEDULE_ARRAYLIST = teamScheduleModalArrayList;
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            } else {
-                teamScheduleModalArrayList = LazyLoader.TEAM_SCHEDULE_ARRAYLIST;
+                feedCounter = feedLimit;
+                if((jsonArray.length() - feedLimit) <= 6){
+                    feedLimit = feedLimit + (jsonArray.length() - feedLimit);
+                }else{
+                    if(jsonArray.length() >= (feedLimit + 6)){
+                        feedLimit = feedLimit + 6;
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,7 +103,6 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
                     for (int i = 0; i < teamScheduleModalArrayList.size(); i++) {
                         teamScheduleModal = teamScheduleModalArrayList.get(i);
 
-                        LinearLayout container = view.findViewById(R.id.team_schedule_container);
                         View view = ((Activity) context).getLayoutInflater().inflate(R.layout.item_list_matches, container, false);
 
                         team1_TV = view.findViewById(R.id.team1_TV);
@@ -115,6 +133,9 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
 
                         container.addView(view);
                     }
+
+                    Dashboard.shimmerMatch.setVisibility(View.GONE);
+                    container.setVisibility(View.VISIBLE);
                 } else {
                     //new BottomSheetDialog(context).NoInternetBottomSheet(((Activity)context).getWindow().getDecorView());
                 }
