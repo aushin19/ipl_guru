@@ -51,6 +51,7 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TradeViewH
             public void run() {
                 holder.traders_TV.setText("232 traders");
                 holder.question_TV.setText(tradeModal.question);
+                holder.info_TV.setText(tradeModal.info);
             }
         });
     }
@@ -61,11 +62,12 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TradeViewH
     }
 
     public class TradeViewHolder extends RecyclerView.ViewHolder {
-        TextView traders_TV, question_TV;
+        TextView traders_TV, question_TV, info_TV;
         public TradeViewHolder(@NonNull View itemView) {
             super(itemView);
             traders_TV = itemView.findViewById(R.id.traders_TV);
             question_TV = itemView.findViewById(R.id.question_TV);
+            info_TV = itemView.findViewById(R.id.info_TV);
         }
     }
 }
