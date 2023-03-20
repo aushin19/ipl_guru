@@ -9,11 +9,19 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primary">#B31B1B</color>
+    <color name="primary_background">#ED6C6C</color>
     <color name="background">#FFF</color>
+    <color name="dialog_background">#FFF</color>
 
     <color name="black_font">#000</color>
     <color name="white_font">#FFF</color>
     <color name="grey_font">#9F9F9F</color>
+
+    <color name="light_red">#FD525C</color>
+    <color name="light_red_background">#4DFD525C</color>
+
+    <color name="green_tick">#32DE84</color>
+    <color name="green_tick_background">#1A32DE84</color>
 
     <color name="shimmer_background">#C8C8C8</color>
     <color name="shimmer_foreground">#9E9E9E</color>

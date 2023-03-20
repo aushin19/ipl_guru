@@ -28,8 +28,13 @@ import org.json.JSONException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
@@ -93,25 +98,29 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void unused) {
         super.onPostExecute(unused);
-        ((Activity) context).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (teamScheduleModalArrayList != null) {
-                    TeamScheduleModal teamScheduleModal;
-                    TextView team1_TV, team2_TV, team1Short_TV, team2Short_TV, match_timer_TV, match_date_TV;
-                    ConstraintLayout team1_CL, team2_CL, teamsOut_CL;
-                    ImageView team1_IMG, team2_IMG;
 
-                    for (int i = 0; i < teamScheduleModalArrayList.size(); i++) {
-                        teamScheduleModal = teamScheduleModalArrayList.get(i);
+        if (teamScheduleModalArrayList != null) {
+            TeamScheduleModal teamScheduleModal;
 
-                        View view = ((Activity) context).getLayoutInflater().inflate(R.layout.item_list_matches, container, false);
+            for (int i = 0; i < teamScheduleModalArrayList.size(); i++) {
+                teamScheduleModal = teamScheduleModalArrayList.get(i);
+                View view = ((Activity) context).getLayoutInflater().inflate(R.layout.item_list_matches, container, false);
+                container.addView(view);
+
+                TeamScheduleModal finalTeamScheduleModal = teamScheduleModal;
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView team1_TV, team2_TV, team1Short_TV, team2Short_TV, match_timer_TV, match_date_TV;
+                        ConstraintLayout team1_CL, team2_CL, teamsOut_CL;
+                        ImageView team1_IMG, team2_IMG;
 
                         team1_TV = view.findViewById(R.id.team1_TV);
                         team2_TV = view.findViewById(R.id.team2_TV);
                         team1Short_TV = view.findViewById(R.id.team1Short_TV);
                         team2Short_TV = view.findViewById(R.id.team2Short_TV);
                         match_timer_TV = view.findViewById(R.id.match_timer_TV);
+                        match_date_TV = view.findViewById(R.id.match_date_TV);
 
                         team1_CL = view.findViewById(R.id.team1_CL);
                         team2_CL = view.findViewById(R.id.team2_CL);
@@ -120,29 +129,51 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
                         team1_IMG = view.findViewById(R.id.team1_IMG);
                         team2_IMG = view.findViewById(R.id.team2_IMG);
 
-                        team1_TV.setText(teamScheduleModal.team1_name);
-                        team2_TV.setText(teamScheduleModal.team2_name);
-                        team1Short_TV.setText(teamScheduleModal.team1_short_name);
-                        team2Short_TV.setText(teamScheduleModal.team2_short_name);
+                        team1_TV.setText(finalTeamScheduleModal.team1_name);
+                        team2_TV.setText(finalTeamScheduleModal.team2_name);
+                        team1Short_TV.setText(finalTeamScheduleModal.team1_short_name);
+                        team2Short_TV.setText(finalTeamScheduleModal.team2_short_name);
 
-                        setTeamImage(teamScheduleModal.team1_short_name, team1_IMG);
-                        setTeamImage(teamScheduleModal.team2_short_name, team2_IMG);
+                        setTeamImage(finalTeamScheduleModal.team1_short_name, team1_IMG);
+                        setTeamImage(finalTeamScheduleModal.team2_short_name, team2_IMG);
 
-                        if (teamScheduleModal.isTeamAvailable)
+                        if (finalTeamScheduleModal.isTeamAvailable)
                             teamsOut_CL.setVisibility(View.VISIBLE);
 
-                        new MatchStartCountdown(context).countDownStart(teamScheduleModal.matchTime, match_timer_TV);
-
-                        container.addView(view);
+                        new MatchStartCountdown(context).countDownStart(finalTeamScheduleModal.matchTime, match_timer_TV);
+                        setMatchTime(finalTeamScheduleModal.matchTime, match_date_TV);
                     }
-
-                    Dashboard.shimmerMatch.setVisibility(View.GONE);
-                    container.setVisibility(View.VISIBLE);
-                } else {
-                    //new BottomSheetDialog(context).NoInternetBottomSheet(((Activity)context).getWindow().getDecorView());
-                }
+                });
             }
-        });
+
+            Dashboard.shimmerMatch.setVisibility(View.GONE);
+            container.setVisibility(View.VISIBLE);
+        } else {
+            //new BottomSheetDialog(context).NoInternetBottomSheet(((Activity)context).getWindow().getDecorView());
+        }
+    }
+
+    private void setMatchTime(String dateString, TextView textView){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
+        LocalDate date = dateTime.toLocalDate();
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.plusDays(1);
+
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("HH:mm a");
+        dateTime = LocalDateTime.parse(dateString, formatter);
+        String outputString = dateTime.format(outputFormatter);
+
+        if (date.isEqual(today)) {
+            textView.setText("Today, "  + outputString);
+        } else if (date.isEqual(tomorrow)) {
+            textView.setText("Tomorrow, "  + outputString);
+        } else {
+            outputFormatter = DateTimeFormatter.ofPattern("dd MMM, HH:mm a");
+            dateTime = LocalDateTime.parse(dateString, formatter);
+            outputString = dateTime.format(outputFormatter);
+            textView.setText(outputString);
+        }
     }
 
     private void setTeamImage(String name, ImageView imageView) {
@@ -183,10 +214,6 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
                 .load(context.getDrawable(drawable))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
-    }
-
-    private void setTeamImage(){
-
     }
 
     private Bitmap getBitMap(Drawable drawable) {

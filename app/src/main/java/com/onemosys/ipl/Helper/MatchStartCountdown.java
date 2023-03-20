@@ -59,18 +59,18 @@ public class MatchStartCountdown {
                             public void run() {
                                 if(daysLeft.equals("00")){
                                     textView.setText(hoursLeft + "h " + minsLeft + "m");
-                                }
-                                if (hoursLeft.equals("00")){
-                                    textView.setText(minsLeft + "m " + secondLeft + "s");
-                                }
-                                if(minsLeft.equals("00")){
-                                    textView.setText(secondLeft + "s");
                                 }else{
                                     handler.removeMessages(0);
                                     if(daysLeft.equals("1") || daysLeft.equals("01"))
                                         textView.setText(daysLeft + " day");
                                     else
                                         textView.setText(daysLeft + " days");
+                                }
+                                if (hoursLeft.equals("00")){
+                                    textView.setText(minsLeft + "m " + secondLeft + "s");
+                                }
+                                if(minsLeft.equals("00")){
+                                    textView.setText(secondLeft + "s");
                                 }
                             }
                         });

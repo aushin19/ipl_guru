@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "731818685921",
+    "project_id": "ipl-guru-b6413",
+    "storage_bucket": "ipl-guru-b6413.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731818685921:android:1e6a2d0e9cb51cfacd0ea0",
+        "android_client_info": {
+          "package_name": "com.onemosys.ipl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "731818685921-vcckrn2q0m3mfm3jklq9ur76gd1ldjf9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.onemosys.ipl",
+            "certificate_hash": "97b217e7957812f708fc33f119dd22aeddd75ea3"
+          }
+        },
+        {
+          "client_id": "731818685921-7i7ojq4djt4p1jh79mufuhagogltdr9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDue0VeDI3PuH5YUKWf7hEEzgXU0AkP_SI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "731818685921-7i7ojq4djt4p1jh79mufuhagogltdr9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

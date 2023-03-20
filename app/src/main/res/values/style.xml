@@ -1,3 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="RadioButton">
+        <item name="colorAccent">@color/black</item>
+    </style>
+
+    <style name="ProgressBar">
+        <item name="colorAccent">@color/black</item>
+    </style>
+
+    <style name="bottomSheetDialog" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="BottomSheetTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetDialog</item>
+    </style>
+
+    <style name="LoginOrSignupTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:textColorHint">@color/grey_font</item>
+        <item name="boxCornerRadiusBottomEnd">5dp</item>
+        <item name="boxCornerRadiusBottomStart">5dp</item>
+        <item name="boxCornerRadiusTopEnd">5dp</item>
+        <item name="boxCornerRadiusTopStart">5dp</item>
+        <item name="boxStrokeColor">@color/grey_font</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="android:textColor">@color/grey_font</item>
+        <item name="hintTextColor">@color/black_font</item>
+        <item name="colorAccent">@color/black_font</item>
+    </style>
+
+    <style name="LoginOrSignupTextEditStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="fontFamily">@font/open_sans</item>
+        <item name="drawableTint">@color/grey_font</item>
+        <item name="android:textColor">@color/black_font</item>
+    </style>
 </resources>

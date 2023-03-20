@@ -13,6 +13,8 @@ import android.view.View;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.onemosys.ipl.Fragments.Dashboard;
 import com.onemosys.ipl.Fragments.News;
+import com.onemosys.ipl.Fragments.Profile;
+import com.onemosys.ipl.Fragments.Trade;
 import com.onemosys.ipl.NetworkCalls.GetTeamSchedule;
 
 public class Home extends AppCompatActivity {
@@ -45,8 +47,14 @@ public class Home extends AppCompatActivity {
             @Override
             public void onItemSelected(int i) {
                 switch (i) {
+                    case R.id.menu_trade:
+                        openFragment(new Trade(), (FragmentActivity) activity);
+                        return;
                     case R.id.menu_news:
                         openFragment(new News(), (FragmentActivity) activity);
+                        return;
+                    case R.id.menu_profile:
+                        openFragment(new Profile(), (FragmentActivity) activity);
                         return;
                     default:
                         openFragment(new Dashboard(), (FragmentActivity) activity);
