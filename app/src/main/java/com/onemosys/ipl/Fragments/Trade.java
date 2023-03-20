@@ -1,13 +1,19 @@
 package com.onemosys.ipl.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.onemosys.ipl.NetworkCalls.GetTrades;
 import com.onemosys.ipl.R;
 
 /**
@@ -16,6 +22,9 @@ import com.onemosys.ipl.R;
  * create an instance of this fragment.
  */
 public class Trade extends Fragment {
+
+    Context context;
+    public static RecyclerView trade_RCV;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,5 +71,25 @@ public class Trade extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trade, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        context = getContext();
+        getTrades(view);
+    }
+
+    private void getTrades(View view) {
+        trade_RCV = view.findViewById(R.id.trade_RCV);
+        trade_RCV.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                new GetTrades(context, view).execute();
+            }
+        }).start();
     }
 }

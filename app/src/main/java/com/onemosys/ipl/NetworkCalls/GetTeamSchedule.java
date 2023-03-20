@@ -6,18 +6,15 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.onemosys.ipl.Configs.LazyLoader;
 import com.onemosys.ipl.Fragments.Dashboard;
 import com.onemosys.ipl.Helper.MatchStartCountdown;
 import com.onemosys.ipl.Modals.TeamScheduleModal;
@@ -28,12 +25,10 @@ import org.json.JSONException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -69,12 +64,10 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
                     if (true) { //todayUNIX <= jsonArray.getJSONObject(i).getInt("matchTime")
                         teamScheduleModalArrayList.add(new TeamScheduleModal(
                                 jsonArray.getJSONObject(i).getString("team1"),
-                                jsonArray.getJSONObject(i).getString("team1Short"),
                                 jsonArray.getJSONObject(i).getString("team2"),
-                                jsonArray.getJSONObject(i).getString("team2Short"),
-                                jsonArray.getJSONObject(i).getString("matchDay"),
                                 jsonArray.getJSONObject(i).getString("matchTime"),
-                                jsonArray.getJSONObject(i).getBoolean("isTeamAvailable")));
+                                jsonArray.getJSONObject(i).getBoolean("isTeamAvailable"),
+                                jsonArray.getJSONObject(i).getString("matchVenue")));
                     }
                 }
                 feedCounter = feedLimit;
@@ -115,7 +108,7 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
                         ConstraintLayout team1_CL, team2_CL, teamsOut_CL;
                         ImageView team1_IMG, team2_IMG;
 
-                        team1_TV = view.findViewById(R.id.team1_TV);
+                        team1_TV = view.findViewById(R.id.question_TV);
                         team2_TV = view.findViewById(R.id.team2_TV);
                         team1Short_TV = view.findViewById(R.id.team1Short_TV);
                         team2Short_TV = view.findViewById(R.id.team2Short_TV);
@@ -131,17 +124,27 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
 
                         team1_TV.setText(finalTeamScheduleModal.team1_name);
                         team2_TV.setText(finalTeamScheduleModal.team2_name);
-                        team1Short_TV.setText(finalTeamScheduleModal.team1_short_name);
-                        team2Short_TV.setText(finalTeamScheduleModal.team2_short_name);
 
-                        setTeamImage(finalTeamScheduleModal.team1_short_name, team1_IMG);
-                        setTeamImage(finalTeamScheduleModal.team2_short_name, team2_IMG);
+                        setShortName(finalTeamScheduleModal.team1_name, team1Short_TV);
+                        setShortName(finalTeamScheduleModal.team2_name, team2Short_TV);
+
+                        setTeamImage(finalTeamScheduleModal.team1_name, team1_IMG);
+                        setTeamImage(finalTeamScheduleModal.team2_name, team2_IMG);
 
                         if (finalTeamScheduleModal.isTeamAvailable)
                             teamsOut_CL.setVisibility(View.VISIBLE);
 
-                        new MatchStartCountdown(context).countDownStart(finalTeamScheduleModal.matchTime, match_timer_TV);
-                        setMatchTime(finalTeamScheduleModal.matchTime, match_date_TV);
+                        if(finalTeamScheduleModal.matchTime.equals("LIVE")){
+                            match_timer_TV.setText("LIVE");
+                            match_date_TV.setVisibility(View.GONE);
+                        } else if (finalTeamScheduleModal.matchTime.equals("COMPLETED")) {
+                            match_timer_TV.setText("COMPLETED");
+                            match_date_TV.setVisibility(View.GONE);
+                        }else{
+                            new MatchStartCountdown(context).countDownStart(finalTeamScheduleModal.matchTime, match_timer_TV);
+                            setMatchTime(finalTeamScheduleModal.matchTime, match_date_TV);
+                        }
+
                     }
                 });
             }
@@ -160,7 +163,7 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
         LocalDate today = LocalDate.now();
         LocalDate tomorrow = today.plusDays(1);
 
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("HH:mm a");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("hh:mm a");
         dateTime = LocalDateTime.parse(dateString, formatter);
         String outputString = dateTime.format(outputFormatter);
 
@@ -169,44 +172,59 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
         } else if (date.isEqual(tomorrow)) {
             textView.setText("Tomorrow, "  + outputString);
         } else {
-            outputFormatter = DateTimeFormatter.ofPattern("dd MMM, HH:mm a");
+            outputFormatter = DateTimeFormatter.ofPattern("dd MMM, hh:mm a");
             dateTime = LocalDateTime.parse(dateString, formatter);
             outputString = dateTime.format(outputFormatter);
             textView.setText(outputString);
         }
     }
 
+    private void setShortName(String name, TextView textView){
+        switch (name){
+            case "Mumbai Indians" : textView.setText("MI"); break;
+            case "Chennai Super Kings" : textView.setText("CSK"); break;
+            case "Kolkata Knight Riders" : textView.setText("KKR"); break;
+            case "Rajasthan Royals" : textView.setText("RR"); break;
+            case "Royal Challengers Bangalore" : textView.setText("RCB"); break;
+            case "Sunrisers Hyderabad" : textView.setText("SRH"); break;
+            case "Delhi Capitals" : textView.setText("DC"); break;
+            case "Gujarat Titans" : textView.setText("GT"); break;
+            case "Lucknow Super Giants" : textView.setText("LSG"); break;
+            case "Punjab Kings" : textView.setText("PBKS"); break;
+        }
+    }
+
     private void setTeamImage(String name, ImageView imageView) {
         int drawable = 0;
         switch (name) {
-            case "MI":
+            case "Mumbai Indians":
                 drawable = R.drawable.mi;
                 break;
-            case "CSK":
+            case "Chennai Super Kings":
                 drawable = R.drawable.csk;
                 break;
-            case "KKR":
+            case "Kolkata Knight Riders":
                 drawable = R.drawable.kkr;
                 break;
-            case "RR":
+            case "Rajasthan Royals":
                 drawable = R.drawable.rr;
                 break;
-            case "RCB":
+            case "Royal Challengers Bangalore":
                 drawable = R.drawable.rcb;
                 break;
-            case "SRH":
+            case "Sunrisers Hyderabad":
                 drawable = R.drawable.srh;
                 break;
-            case "DC":
+            case "Delhi Capitals":
                 drawable = R.drawable.dc;
                 break;
-            case "GT":
+            case "Gujarat Titans":
                 drawable = R.drawable.gt;
                 break;
-            case "LSG":
+            case "Lucknow Super Giants":
                 drawable = R.drawable.lsg;
                 break;
-            case "PBKS":
+            case "Punjab Kings":
                 drawable = R.drawable.pbks;
                 break;
         }

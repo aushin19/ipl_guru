@@ -16,19 +16,6 @@ public class MatchStartCountdown {
         this.context = context;
     }
 
-    public static String parseDate(int unixTime) {
-        long dv = Long.valueOf(unixTime) * 1000;
-        Date df = new java.util.Date(dv);
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(df);
-    }
-
-    public static Long toUnixTimestamp(Date date) {
-        if (date == null) {
-            return null;
-        }
-        return date.getTime() / 1000L;
-    }
-
     public void countDownStart(String Time, TextView textView) {
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
@@ -59,19 +46,21 @@ public class MatchStartCountdown {
                             public void run() {
                                 if(daysLeft.equals("00")){
                                     textView.setText(hoursLeft + "h " + minsLeft + "m");
-                                }else{
-                                    handler.removeMessages(0);
-                                    if(daysLeft.equals("1") || daysLeft.equals("01"))
-                                        textView.setText(daysLeft + " day");
-                                    else
-                                        textView.setText(daysLeft + " days");
+                                    return;
                                 }
-                                if (hoursLeft.equals("00")){
+                                if (daysLeft.equals("00") && hoursLeft.equals("00")){
                                     textView.setText(minsLeft + "m " + secondLeft + "s");
+                                    return;
                                 }
-                                if(minsLeft.equals("00")){
+                                if(daysLeft.equals("00") && hoursLeft.equals("00") && minsLeft.equals("00")){
                                     textView.setText(secondLeft + "s");
+                                    return;
                                 }
+                                handler.removeMessages(0);
+                                if(daysLeft.equals("1") || daysLeft.equals("01"))
+                                    textView.setText(daysLeft + " day");
+                                else
+                                    textView.setText(daysLeft + " days");
                             }
                         });
                     } else {

@@ -96,13 +96,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/traders_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/open_sans"
-                android:text="TATA IPL 2023"
+                android:text="TATA Indian Premier League 2023"
                 android:textColor="@color/grey_font"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,8 +117,8 @@
                 android:background="@color/divider"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintStart_toStartOf="@+id/traders_TV"
+                app:layout_constraintTop_toBottomOf="@+id/traders_TV" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
@@ -156,7 +156,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
-                    android:id="@+id/team1_TV"
+                    android:id="@+id/question_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -179,8 +179,8 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/srh"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/team1_TV"
-                    app:layout_constraintTop_toBottomOf="@+id/team1_TV" />
+                    app:layout_constraintStart_toStartOf="@+id/question_TV"
+                    app:layout_constraintTop_toBottomOf="@+id/question_TV" />
 
                 <TextView
                     android:id="@+id/team1Short_TV"
