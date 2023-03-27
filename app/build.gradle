@@ -47,6 +47,7 @@ dependencies {
         transitive = true
     }
     implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.github.gifffert:ExpandableTextView:0.1.6'
 
     //Networking
     implementation 'com.android.volley:volley:1.2.1'

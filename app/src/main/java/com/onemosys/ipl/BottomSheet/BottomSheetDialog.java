@@ -3,18 +3,10 @@ package com.onemosys.ipl.BottomSheet;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,16 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.onemosys.ipl.Dialog.WaitingDialog;
-import com.onemosys.ipl.Dialog.showSnackBar;
+import com.onemosys.ipl.Helper.CommaFormat;
 import com.onemosys.ipl.Helper.UsersData;
-import com.onemosys.ipl.Home;
 import com.onemosys.ipl.MainActivity;
+import com.onemosys.ipl.NetworkCalls.GetNotifications;
 import com.onemosys.ipl.R;
-
-import java.util.regex.Pattern;
 
 public class BottomSheetDialog {
     public static TextView withdraw_notice_TV;
@@ -234,11 +222,11 @@ public class BottomSheetDialog {
         dialog.show();
     }*/
 
-    /*public void StartQuizBottomSheet(View view, int quiz_coins, Bundle bundle, QuizFeedModal quizFeedModal) {
+    public void TradeBottomSheet(View view, int trade_coins) {
         dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(context, R.style.BottomSheetTheme);
         dialog.setCancelable(true);
         dialog.setDismissWithAnimation(true);
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_confirm_start_quiz, view.findViewById(R.id.bottomSheetContainer));
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_confirm_trade, view.findViewById(R.id.bottomSheetContainer));
         TextView quiz_coins_TV = dialogView.findViewById(R.id.quiz_coins_TV);
         TextView quiz_net_profit_TV = dialogView.findViewById(R.id.quiz_net_profit_TV);
         TextView quiz_winning_amt_TV = dialogView.findViewById(R.id.quiz_winning_amt_TV);
@@ -246,8 +234,8 @@ public class BottomSheetDialog {
         MaterialButton quiz_join_BTN = dialogView.findViewById(R.id.quiz_join_BTN);
 
         quiz_coins_TV.setText(CommaFormat.coinsCommaFormat(UsersData.getCoins(context)));
-        quiz_winning_amt_TV.setText("$" + CommaFormat.walletCommaFormat(quizFeedModal.quiz_wallet));
-        quiz_entry_fee_TV.setText(CommaFormat.coinsCommaFormat(quiz_coins));
+        quiz_winning_amt_TV.setText("$" + CommaFormat.walletCommaFormat(5));
+        quiz_entry_fee_TV.setText(CommaFormat.coinsCommaFormat(trade_coins));
         quiz_net_profit_TV.setText(((int) (Math.random() * (200 - 150)) + 150) + "");
 
 
@@ -256,7 +244,7 @@ public class BottomSheetDialog {
             public void onClick(View v) {
                 dialog.dismiss();
                 waitingDialog.show();
-                withdrawCoinsAndWallet.withdrawQuizCoins(context, quizFeedModal.quiz_coins, bundle, quizFeedModal);
+                //withdrawCoinsAndWallet.withdrawQuizCoins(context, quizFeedModal.quiz_coins, bundle, quizFeedModal);
             }
         });
 
@@ -264,7 +252,7 @@ public class BottomSheetDialog {
         dialog.show();
     }
 
-    public void CouponConfirmBottomSheet(View view, CouponModal couponModal) {
+    /*public void CouponConfirmBottomSheet(View view, CouponModal couponModal) {
         dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(context, R.style.BottomSheetTheme);
         dialog.setCancelable(true);
         dialog.setDismissWithAnimation(true);
@@ -314,24 +302,6 @@ public class BottomSheetDialog {
         dialog.show();
     }*/
 
-    /*public void WithdrawSuccessfullyBottomSheet(View view) {
-        dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(context, R.style.BottomSheetTheme);
-        dialog.setCancelable(false);
-        dialog.setDismissWithAnimation(true);
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_withdraw_successfully, view.findViewById(R.id.bottomSheetContainer));
-        TextView thank_you_BTN = dialogView.findViewById(R.id.thank_you_BTN);
-
-        thank_you_BTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.setContentView(dialogView);
-        dialog.show();
-    }*/
-
     /*public void RecoverPasswordBottomSheet(View view) {
         dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(context, R.style.BottomSheetTheme);
         dialog.setCancelable(true);
@@ -374,7 +344,7 @@ public class BottomSheetDialog {
         dialog.show();
     }*/
 
-    /*public void notificationBottomSheet(View view) {
+    public void notificationBottomSheet(View view) {
         dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(context, R.style.BottomSheetTheme);
         dialog.setCancelable(true);
         dialog.setDismissWithAnimation(true);
@@ -397,105 +367,7 @@ public class BottomSheetDialog {
         });
 
         dialog.setContentView(dialogView);
-    }*/
-
-    /*public void WithdrawBottomSheet(View view) {
-        dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(context, R.style.BottomSheetTheme);
-        dialog.setCancelable(true);
-        dialog.setDismissWithAnimation(true);
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_withdraw, view.findViewById(R.id.bottomSheetContainer));
-        TextView withdraw_coins_TV = dialogView.findViewById(R.id.withdraw_coins_TV);
-
-        TextInputEditText withdraw_amt_TB = dialogView.findViewById(R.id.withdraw_amt_TB);
-        TextInputEditText withdraw_upi_TB = dialogView.findViewById(R.id.withdraw_upi_TB);
-
-        RadioButton withdraw_UPI_RB = dialogView.findViewById(R.id.withdraw_UPI_RB);
-        RadioButton withdraw_Wallet_RB = dialogView.findViewById(R.id.withdraw_Wallet_RB);
-        RadioButton withdraw_paypal_RB = dialogView.findViewById(R.id.withdraw_paypal_RB);
-
-        withdraw_progressbar = dialogView.findViewById(R.id.withdraw_progressbar);
-
-        withdraw_notice_TV = dialogView.findViewById(R.id.withdraw_notice_TV);
-
-        withdraw_notice_shimmer = dialogView.findViewById(R.id.withdraw_notice_shimmer);
-
-        withdraw_BTN = dialogView.findViewById(R.id.withdraw_BTN);
-        TextInputLayout withdraw_upi_LT = dialogView.findViewById(R.id.withdraw_upi_LT);
-
-        withdraw_coins_TV.setText("$" + CommaFormat.walletCommaFormat(UsersData.getWallet(context)));
-        withdraw_UPI_RB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                payMode = "UPI ID : ";
-                withdraw_Wallet_RB.setChecked(false);
-                withdraw_paypal_RB.setChecked(false);
-                withdraw_upi_LT.setHint("Enter UPI ID");
-            }
-        });
-        withdraw_Wallet_RB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                payMode = "Wallet Number : ";
-                withdraw_UPI_RB.setChecked(false);
-                withdraw_paypal_RB.setChecked(false);
-                withdraw_upi_LT.setHint("Enter PhonePe or PayTm Number");
-            }
-        });
-
-        withdraw_paypal_RB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                payMode = "Paypal : ";
-                withdraw_UPI_RB.setChecked(false);
-                withdraw_Wallet_RB.setChecked(false);
-                withdraw_upi_LT.setHint("Enter Paypal Address");
-            }
-        });
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                new GetWalletWithdrawLimit(context);
-            }
-        }).start();
-
-        dialogView.findViewById(R.id.withdraw_BTN).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String UPIid = withdraw_upi_TB.getText().toString().trim();
-                String coins = withdraw_amt_TB.getText().toString().trim();
-
-                if (!coins.equals("") && !UPIid.equals("")) {
-                    if (withdraw_UPI_RB.isChecked()) {
-                        if (checkWalletID(UPIid)) {
-                            waitingDialog.show();
-                            withdrawCoinsAndWallet.withdrawWallet(context, Integer.parseInt(coins), payMode + UPIid);
-                        } else {
-                            showSnackBar.build("Invalid UPI ID Entered!", R.color.light_red, context, dialog.getWindow().getDecorView());
-                        }
-                    } else if (withdraw_Wallet_RB.isChecked()) {
-                        if (UPIid.length() == 10) {
-                            waitingDialog.show();
-                            withdrawCoinsAndWallet.withdrawWallet(context, Integer.parseInt(coins), payMode + UPIid);
-                        } else {
-                            showSnackBar.build("Invalid Number Entered!", R.color.light_red, context, dialog.getWindow().getDecorView());
-                        }
-                    } else if (withdraw_paypal_RB.isChecked()) {
-                        waitingDialog.show();
-                        withdrawCoinsAndWallet.withdrawWallet(context, Integer.parseInt(coins), payMode + UPIid);
-                    }
-
-                } else {
-                    showSnackBar.build("Fields Can't be Empty", R.color.light_red, context, dialog.getWindow().getDecorView());
-                }
-
-            }
-        });
-
-        dialog.setContentView(dialogView);
-        dialog.show();
-    }*/
+    }
 
     /*public void OTPVerificationBottomSheet(View view, double wallet) {
         new Thread(new Runnable() {

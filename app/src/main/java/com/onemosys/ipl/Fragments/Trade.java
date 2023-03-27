@@ -2,6 +2,9 @@ package com.onemosys.ipl.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,10 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.onemosys.ipl.NetworkCalls.GetTrades;
 import com.onemosys.ipl.R;
 
@@ -23,6 +23,7 @@ import com.onemosys.ipl.R;
  */
 public class Trade extends Fragment {
 
+    public static ShimmerFrameLayout trade_shimmer;
     Context context;
     public static RecyclerView trade_RCV;
 
@@ -82,6 +83,7 @@ public class Trade extends Fragment {
     }
 
     private void getTrades(View view) {
+        trade_shimmer = view.findViewById(R.id.trade_shimmer);
         trade_RCV = view.findViewById(R.id.trade_RCV);
         trade_RCV.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 

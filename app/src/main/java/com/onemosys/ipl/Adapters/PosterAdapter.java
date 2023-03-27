@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.onemosys.ipl.Home;
 import com.onemosys.ipl.Modals.PosterModal;
 import com.onemosys.ipl.R;
 

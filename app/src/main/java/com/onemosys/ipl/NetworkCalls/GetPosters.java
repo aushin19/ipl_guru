@@ -15,7 +15,6 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.onemosys.ipl.Adapters.PosterAdapter;
 import com.onemosys.ipl.Configs.LazyLoader;
 import com.onemosys.ipl.Fragments.Dashboard;

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +34,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.onemosys.ipl.Adapters.onBoardingAdapter;
 import com.onemosys.ipl.Helper.UsersData;
 import com.onemosys.ipl.Home;
-import com.onemosys.ipl.MainActivity;
 import com.onemosys.ipl.R;
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
-
-import java.util.concurrent.Executor;
 
 /**
  * A simple {@link Fragment} subclass.

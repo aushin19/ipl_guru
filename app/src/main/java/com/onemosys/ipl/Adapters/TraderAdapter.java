@@ -1,5 +1,7 @@
 package com.onemosys.ipl.Adapters;
 
+import static com.onemosys.ipl.Fragments.Profile.bottomSheetDialog;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
+import com.onemosys.ipl.BottomSheet.BottomSheetDialog;
 import com.onemosys.ipl.Modals.TradeModal;
 import com.onemosys.ipl.R;
 
@@ -52,6 +56,15 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TradeViewH
                 holder.traders_TV.setText("232 traders");
                 holder.question_TV.setText(tradeModal.question);
                 holder.info_TV.setText(tradeModal.info);
+
+                holder.trade_yes_MCV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomSheetDialog = new BottomSheetDialog(context);
+                        bottomSheetDialog.TradeBottomSheet(((Activity)context).getWindow().getDecorView(),
+                                tradeModal.yes);
+                    }
+                });
             }
         });
     }
@@ -63,11 +76,15 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TradeViewH
 
     public class TradeViewHolder extends RecyclerView.ViewHolder {
         TextView traders_TV, question_TV, info_TV;
+        MaterialCardView trade_no_MCV, trade_yes_MCV;
         public TradeViewHolder(@NonNull View itemView) {
             super(itemView);
             traders_TV = itemView.findViewById(R.id.traders_TV);
             question_TV = itemView.findViewById(R.id.question_TV);
             info_TV = itemView.findViewById(R.id.info_TV);
+
+            trade_no_MCV = itemView.findViewById(R.id.trade_no_MCV);
+            trade_yes_MCV = itemView.findViewById(R.id.trade_yes_MCV);
         }
     }
 }

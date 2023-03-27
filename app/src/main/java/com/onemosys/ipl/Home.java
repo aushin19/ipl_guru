@@ -1,14 +1,15 @@
 package com.onemosys.ipl;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.onemosys.ipl.Fragments.Dashboard;
@@ -23,7 +24,6 @@ public class Home extends AppCompatActivity {
     public Activity activity;
     public View view;
     public ChipNavigationBar chipNavigationBar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,4 +79,26 @@ public class Home extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        switch (chipNavigationBar.getSelectedItemId()) {
+            case R.id.menu_trade:
+                openFragment(new Trade(), (FragmentActivity) activity);
+                return;
+            case R.id.menu_news:
+                openFragment(new News(), (FragmentActivity) activity);
+                return;
+            case R.id.menu_profile:
+                openFragment(new Profile(), (FragmentActivity) activity);
+                return;
+            default:
+                openFragment(new Dashboard(), (FragmentActivity) activity);
+        }
+
+        GetTeamSchedule.feedLimit = 6;
+        GetTeamSchedule.feedCounter = 0;
+
+    }
 }

@@ -71,6 +71,9 @@ public class GetTrades extends AsyncTask<Void, Void, Void> {
                 Trade.trade_RCV.setHasFixedSize(true);
                 Trade.trade_RCV.setItemViewCacheSize(tradeModalArrayList.size());
                 Trade.trade_RCV.setAdapter(traderAdapter);
+
+                Trade.trade_shimmer.setVisibility(View.GONE);
+                Trade.trade_RCV.setVisibility(View.VISIBLE);
             }
         });
     }
