@@ -192,6 +192,7 @@ public class Onboarding extends Fragment implements GoogleApiClient.OnConnection
 
             UsersData.setUserName(context, account.getDisplayName());
             UsersData.setUserEmail(context, account.getEmail());
+            UsersData.setAvatar(context, String.valueOf(account.getPhotoUrl()));
 
             AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
             firebaseAuthWithGoogle(credential);

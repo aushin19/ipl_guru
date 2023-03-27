@@ -4,6 +4,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
+
 import com.onemosys.ipl.Configs.android_configs;
 
 public class UsersData {
@@ -84,15 +86,16 @@ public class UsersData {
         SharedPreferences sharedPreferences = context.getSharedPreferences(android_configs.SHARED_PREFS, MODE_PRIVATE);
         return sharedPreferences.getFloat("wallet", 0);
     }
-    public static boolean setAvatar(Context context, int value){
+
+    public static boolean setAvatar(Context context, String uri){
         SharedPreferences sharedPreferences = context.getSharedPreferences(android_configs.SHARED_PREFS, MODE_PRIVATE);
-        sharedPreferences.edit().putInt("avatar", value).apply();
+        sharedPreferences.edit().putString("avatar", uri).apply();
         return true;
     }
 
-    public static int getAvatar(Context context){
+    public static String getAvatar(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(android_configs.SHARED_PREFS, MODE_PRIVATE);
-        return sharedPreferences.getInt("avatar", 0);
+        return sharedPreferences.getString("avatar", "null");
     }
 
 }
