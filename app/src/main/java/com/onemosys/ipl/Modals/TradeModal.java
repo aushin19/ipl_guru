@@ -2,13 +2,15 @@ package com.onemosys.ipl.Modals;
 
 public class TradeModal {
     public String question,info;
-    public int yes, no;
+    public double yes, no;
+    public long prizePool;
 
     public TradeModal(){}
 
-    public TradeModal(String question, String info, int yes, int no) {
+    public TradeModal(String question, String info, long prizePool, double yes, double no) {
         this.question = question;
         this.info = info;
+        this.prizePool = prizePool;
         this.yes = yes;
         this.no = no;
     }

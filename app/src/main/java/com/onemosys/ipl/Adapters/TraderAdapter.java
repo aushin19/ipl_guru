@@ -57,12 +57,24 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TradeViewH
                 holder.question_TV.setText(tradeModal.question);
                 holder.info_TV.setText(tradeModal.info);
 
+                holder.trade_yes_TV.setText(tradeModal.yes + "");
+                holder.trade_no_TV.setText(tradeModal.no + "");
+
                 holder.trade_yes_MCV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         bottomSheetDialog = new BottomSheetDialog(context);
                         bottomSheetDialog.TradeBottomSheet(((Activity)context).getWindow().getDecorView(),
-                                tradeModal.yes);
+                                tradeModal.yes, tradeModal.prizePool);
+                    }
+                });
+
+                holder.trade_no_MCV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomSheetDialog = new BottomSheetDialog(context);
+                        bottomSheetDialog.TradeBottomSheet(((Activity)context).getWindow().getDecorView(),
+                                tradeModal.no, tradeModal.prizePool);
                     }
                 });
             }
@@ -75,13 +87,16 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TradeViewH
     }
 
     public class TradeViewHolder extends RecyclerView.ViewHolder {
-        TextView traders_TV, question_TV, info_TV;
+        TextView traders_TV, question_TV, info_TV, trade_yes_TV, trade_no_TV;
         MaterialCardView trade_no_MCV, trade_yes_MCV;
         public TradeViewHolder(@NonNull View itemView) {
             super(itemView);
             traders_TV = itemView.findViewById(R.id.traders_TV);
             question_TV = itemView.findViewById(R.id.question_TV);
             info_TV = itemView.findViewById(R.id.info_TV);
+
+            trade_yes_TV = itemView.findViewById(R.id.trade_yes_TV);
+            trade_no_TV = itemView.findViewById(R.id.trade_no_TV);
 
             trade_no_MCV = itemView.findViewById(R.id.trade_no_MCV);
             trade_yes_MCV = itemView.findViewById(R.id.trade_yes_MCV);

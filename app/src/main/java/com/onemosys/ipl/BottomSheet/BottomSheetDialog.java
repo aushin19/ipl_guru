@@ -21,6 +21,7 @@ import com.onemosys.ipl.Helper.UsersData;
 import com.onemosys.ipl.MainActivity;
 import com.onemosys.ipl.NetworkCalls.GetNotifications;
 import com.onemosys.ipl.R;
+import com.onemosys.ipl.Transaction.JoinTrade;
 
 public class BottomSheetDialog {
     public static TextView withdraw_notice_TV;
@@ -222,7 +223,7 @@ public class BottomSheetDialog {
         dialog.show();
     }*/
 
-    public void TradeBottomSheet(View view, int trade_coins) {
+    public void TradeBottomSheet(View view, double trade_coins, long prizePool) {
         dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(context, R.style.BottomSheetTheme);
         dialog.setCancelable(true);
         dialog.setDismissWithAnimation(true);
@@ -234,7 +235,7 @@ public class BottomSheetDialog {
         MaterialButton quiz_join_BTN = dialogView.findViewById(R.id.quiz_join_BTN);
 
         quiz_coins_TV.setText(CommaFormat.coinsCommaFormat(UsersData.getCoins(context)));
-        quiz_winning_amt_TV.setText("$" + CommaFormat.walletCommaFormat(5));
+        quiz_winning_amt_TV.setText(CommaFormat.coinsCommaFormat(prizePool));
         quiz_entry_fee_TV.setText(CommaFormat.coinsCommaFormat(trade_coins));
         quiz_net_profit_TV.setText(((int) (Math.random() * (200 - 150)) + 150) + "");
 
@@ -243,8 +244,8 @@ public class BottomSheetDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                waitingDialog.show();
                 //withdrawCoinsAndWallet.withdrawQuizCoins(context, quizFeedModal.quiz_coins, bundle, quizFeedModal);
+                JoinTrade.JoinTrade(context, (int) trade_coins);
             }
         });
 

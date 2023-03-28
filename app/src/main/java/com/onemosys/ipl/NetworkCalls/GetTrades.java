@@ -45,6 +45,7 @@ public class GetTrades extends AsyncTask<Void, Void, Void> {
                         tradeModalArrayList.add(new TradeModal(
                                 jsonArray.getJSONObject(i).getString("question"),
                                 jsonArray.getJSONObject(i).getString("info"),
+                                jsonArray.getJSONObject(i).getLong("prizepool"),
                                 jsonArray.getJSONObject(i).getInt("yes"),
                                 jsonArray.getJSONObject(i).getInt("no")));
                     }

@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 
 public class CommaFormat {
 
-    public static String coinsCommaFormat(long coins){
+    public static String coinsCommaFormat(double coins){
         DecimalFormat formatter = new DecimalFormat("#,###,###");
         return formatter.format(coins);
     }

@@ -119,12 +119,14 @@ public class Profile extends Fragment {
         waitingDialog = new WaitingDialog(context);
         ImageView user_IMG = view.findViewById(R.id.user_IMG);
         MaterialButton profile_logout = view.findViewById(R.id.profile_logout);
+        TextView profile_coins_TV = view.findViewById(R.id.profile_coins_TV);
 
         if(isUserExists(context)){
             Glide.with(context)
                     .load(UsersData.getAvatar(context))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(user_IMG);
+            profile_coins_TV.setText(CommaFormat.coinsCommaFormat(UsersData.getCoins(context)));
         }else{
             profile_logout.setText("LOGIN ACCOUNT");
         }

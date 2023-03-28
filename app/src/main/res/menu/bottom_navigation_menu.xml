@@ -11,11 +11,11 @@
         android:icon="@drawable/radio"
         android:title="Trade"
         app:cnb_iconColor="@color/primary"/>
-    <item
+    <!--<item
         android:id="@+id/menu_news"
         android:icon="@drawable/radio"
         android:title="News"
-        app:cnb_iconColor="@color/primary"/>
+        app:cnb_iconColor="@color/primary"/>-->
     <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/radio"

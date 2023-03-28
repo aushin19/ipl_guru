@@ -50,9 +50,9 @@ public class Home extends AppCompatActivity {
                     case R.id.menu_trade:
                         openFragment(new Trade(), (FragmentActivity) activity);
                         return;
-                    case R.id.menu_news:
+                    /*case R.id.menu_news:
                         openFragment(new News(), (FragmentActivity) activity);
-                        return;
+                        return;*/
                     case R.id.menu_profile:
                         openFragment(new Profile(), (FragmentActivity) activity);
                         return;
@@ -87,9 +87,9 @@ public class Home extends AppCompatActivity {
             case R.id.menu_trade:
                 openFragment(new Trade(), (FragmentActivity) activity);
                 return;
-            case R.id.menu_news:
+            /*case R.id.menu_news:
                 openFragment(new News(), (FragmentActivity) activity);
-                return;
+                return;*/
             case R.id.menu_profile:
                 openFragment(new Profile(), (FragmentActivity) activity);
                 return;

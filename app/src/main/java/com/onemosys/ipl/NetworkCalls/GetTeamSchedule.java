@@ -15,8 +15,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.material.card.MaterialCardView;
 import com.onemosys.ipl.Fragments.Dashboard;
 import com.onemosys.ipl.Helper.MatchStartCountdown;
+import com.onemosys.ipl.Helper.UsersData;
 import com.onemosys.ipl.Modals.TeamScheduleModal;
 import com.onemosys.ipl.R;
 
@@ -107,6 +109,9 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
                         TextView team1_TV, team2_TV, team1Short_TV, team2Short_TV, match_timer_TV, match_date_TV;
                         ConstraintLayout team1_CL, team2_CL, teamsOut_CL;
                         ImageView team1_IMG, team2_IMG;
+                        MaterialCardView main_MCV;
+
+                        main_MCV = view.findViewById(R.id.main_MCV);
 
                         team1_TV = view.findViewById(R.id.question_TV);
                         team2_TV = view.findViewById(R.id.team2_TV);
@@ -144,6 +149,13 @@ public class GetTeamSchedule extends AsyncTask<Void, Void, Void> {
                             new MatchStartCountdown(context).countDownStart(finalTeamScheduleModal.matchTime, match_timer_TV);
                             setMatchTime(finalTeamScheduleModal.matchTime, match_date_TV);
                         }
+
+                        main_MCV.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                UsersData.setCoins(context, UsersData.getCoins(context) + 100);
+                            }
+                        });
 
                     }
                 });
